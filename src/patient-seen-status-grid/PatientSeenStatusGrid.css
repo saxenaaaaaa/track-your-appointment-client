@@ -1,0 +1,33 @@
+.flex-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next row */
+    gap: 16px; /* Adjust the gap between items */
+}
+
+.flex-item {
+    flex: 1 1 calc(33.333% - 16px); /* 33.333% width for each item with 16px gap */
+    box-sizing: border-box; /* Include padding and border in the width calculation */
+    border: 1px solid #ddd;
+    padding: 16px;
+    text-align: center;
+    font-size: 16;
+    line-height: 21;
+    font-weight: 'bold';
+    letter-spacing: 0.25;
+    color: white;
+    background-color: black;
+}
+
+.flex-item-green {
+    flex: 1 1 calc(33.333% - 16px); /* 33.333% width for each item with 16px gap */
+    box-sizing: border-box; /* Include padding and border in the width calculation */
+    border: 1px solid #ddd;
+    padding: 16px;
+    text-align: center;
+    font-size: 16;
+    line-height: 21;
+    font-weight: 'bold';
+    letter-spacing: 0.25;
+    color: white;
+    background-color: green;
+}

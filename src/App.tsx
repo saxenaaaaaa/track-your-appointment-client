@@ -1,24 +1,77 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+// import logo from './logo.svg';
 import './App.css';
+import ClinicInfo, { isClinicOpenToday } from './ClinicInfo';
+import SessionInfo, { SessionCurrentStatus } from './SessionInfo';
+
+const serverUrl = "http://192.168.1.7:8000" // use ifconfig to check your public ip on the wifi network you are connected to. Your app should hit you at that ip
+
+export interface ClinicData {
+  patientSeenStatusList: {
+    id: number,
+    status: boolean
+  }[],
+  doctorName: string
+  startTime: string
+  currentStatus: SessionCurrentStatus
+}
+
+function initializeClinicData() {
+  const clinicData: ClinicData = {
+    patientSeenStatusList: new Array<{ id: number, status: boolean }>(),
+    doctorName: "",
+    startTime: "",
+    currentStatus: SessionCurrentStatus.NOT_STARTED
+  }
+  for (let i = 0; i < 200; i++) {
+    clinicData.patientSeenStatusList.push({ id: i + 1, status: false });
+  }
+  return clinicData;
+}
 
 function App() {
+  const now = new Date();
+  const [clinicData, setClinicData] = useState<ClinicData>(initializeClinicData);
+  // const [connection, setConnection] = useState<EventSource | null>(null);
+  
+  useEffect(() => {
+
+    const resourceUrl = `${serverUrl}/clinicData/`;
+    let connection: EventSource;
+    
+    const initializeConnection = () => {
+      connection = new EventSource(resourceUrl);
+      connection.addEventListener("message", (event) => {
+        console.log("Received event data");
+        const nextClinicData = JSON.parse(event.data);
+        setClinicData(nextClinicData);
+      })
+
+      connection.addEventListener("error", (error) => {
+        console.error("Error in server connection", error);
+        connection.close();
+        console.log("Connection closed. Attempting reconnect in a second.");
+        setTimeout(initializeConnection,1000);
+      });
+
+      // setConnection(connection);
+    };
+
+    initializeConnection();
+    console.log("Initialized connection with server");
+
+    return () => {
+      console.log("Component unmounting. Cleaning up connection with server.");
+      if (connection) {
+        connection.close();
+      }
+    };
+  },[]);
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <ClinicInfo doctorName={clinicData.doctorName}/>
+      {isClinicOpenToday() && (<SessionInfo patientSeenStatusList={clinicData.patientSeenStatusList} startTime={clinicData.startTime} currentStatus={clinicData.currentStatus}/>)}
     </div>
   );
 }
