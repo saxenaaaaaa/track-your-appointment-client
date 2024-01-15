@@ -4,7 +4,8 @@ import './App.css';
 import ClinicInfo, { isClinicOpenToday } from './ClinicInfo';
 import SessionInfo, { SessionCurrentStatus } from './SessionInfo';
 
-const serverUrl = "http://192.168.1.7:8000" // use ifconfig to check your public ip on the wifi network you are connected to. Your app should hit you at that ip
+const SERVER_URI = "www.digitracker.org"
+const serverUrl = `http://${SERVER_URI}:8000` // use ifconfig to check your public ip on the wifi network you are connected to. Your app should hit you at that ip
 
 export interface ClinicData {
   patientSeenStatusList: {
@@ -30,13 +31,14 @@ function initializeClinicData() {
 }
 
 function App() {
-  const now = new Date();
+  
   const [clinicData, setClinicData] = useState<ClinicData>(initializeClinicData);
   // const [connection, setConnection] = useState<EventSource | null>(null);
   
   useEffect(() => {
-
+    
     const resourceUrl = `${serverUrl}/clinicData/`;
+    console.log("Resource url is ", resourceUrl);
     let connection: EventSource;
     
     const initializeConnection = () => {
