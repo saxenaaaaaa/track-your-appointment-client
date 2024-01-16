@@ -23,6 +23,17 @@ export interface SessionInfoProps {
 
 export default function SessionInfo({ patientSeenStatusList, startTime, currentStatus }: SessionInfoProps): React.JSX.Element {
 
+    let showStatus;
+    if(currentStatus == SessionCurrentStatus.ENDED) {
+        showStatus = (<Typography gutterBottom variant="h6" component="div" color={'yellow'}>
+            Aaj ke liye doctor uth chuke hain. Dhanyawaad!
+        </Typography>)
+    }
+    else {
+        showStatus = (<Typography gutterBottom variant="h6" component="div">
+            Status: {currentStatus}
+        </Typography>)
+    }
     return (
         <Card variant="outlined" sx={{ width: 1, backgroundColor: 'black', color: 'white', borderRadius: 0 }}>
             <Box sx={{ px: 1 }}>
@@ -30,13 +41,11 @@ export default function SessionInfo({ patientSeenStatusList, startTime, currentS
                     <Typography gutterBottom variant="h6" component="div">
                         Starts at: {startTime}
                     </Typography>
-                    <Typography gutterBottom variant="h6" component="div">
-                        Status: {currentStatus}
-                    </Typography>
+                    {showStatus}
                 </Stack>
             </Box>
             <Divider light />
-            <PatientSeenStatusGrid patientSeenStatusList={patientSeenStatusList} />
+            {(currentStatus != SessionCurrentStatus.ENDED) ? (<PatientSeenStatusGrid patientSeenStatusList={patientSeenStatusList} />) : null}
         </Card>
     );
 }
