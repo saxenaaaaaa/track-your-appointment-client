@@ -5,7 +5,7 @@ import ClinicInfo, { isClinicOpenToday } from './ClinicInfo';
 import SessionInfo, { SessionCurrentStatus } from './SessionInfo';
 
 const SERVER_URI = "www.digitracker.org"
-const serverUrl = `http://${SERVER_URI}:8000` // use ifconfig to check your public ip on the wifi network you are connected to. Your app should hit you at that ip
+const serverUrl = `https://${SERVER_URI}:8000` // use ifconfig to check your public ip on the wifi network you are connected to. Your app should hit you at that ip
 
 export interface ClinicData {
   patientSeenStatusList: {
@@ -13,7 +13,7 @@ export interface ClinicData {
     status: boolean
   }[],
   doctorName: string
-  startTime: string
+  schedule: string
   currentStatus: SessionCurrentStatus
 }
 
@@ -21,7 +21,7 @@ function initializeClinicData() {
   const clinicData: ClinicData = {
     patientSeenStatusList: new Array<{ id: number, status: boolean }>(),
     doctorName: "",
-    startTime: "",
+    schedule: "",
     currentStatus: SessionCurrentStatus.NOT_STARTED
   }
   for (let i = 0; i < 200; i++) {
@@ -73,7 +73,7 @@ function App() {
   return (
     <div>
       <ClinicInfo doctorName={clinicData.doctorName}/>
-      {isClinicOpenToday() && (<SessionInfo patientSeenStatusList={clinicData.patientSeenStatusList} startTime={clinicData.startTime} currentStatus={clinicData.currentStatus}/>)}
+      {isClinicOpenToday() && (<SessionInfo patientSeenStatusList={clinicData.patientSeenStatusList} schedule={clinicData.schedule} currentStatus={clinicData.currentStatus}/>)}
     </div>
   );
 }

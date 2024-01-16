@@ -17,14 +17,14 @@ export interface SessionInfoProps {
         id: number,
         status: boolean
     }[],
-    startTime: string
+    schedule: string
     currentStatus: SessionCurrentStatus
 }
 
-export default function SessionInfo({ patientSeenStatusList, startTime, currentStatus }: SessionInfoProps): React.JSX.Element {
+export default function SessionInfo({ patientSeenStatusList, schedule, currentStatus }: SessionInfoProps): React.JSX.Element {
 
     let showStatus;
-    if(currentStatus == SessionCurrentStatus.ENDED) {
+    if(currentStatus === SessionCurrentStatus.ENDED) {
         showStatus = (<Typography gutterBottom variant="h6" component="div" color={'yellow'}>
             Aaj ke liye doctor uth chuke hain. Dhanyawaad!
         </Typography>)
@@ -39,13 +39,13 @@ export default function SessionInfo({ patientSeenStatusList, startTime, currentS
             <Box sx={{ px: 1 }}>
                 <Stack direction="column">
                     <Typography gutterBottom variant="h6" component="div">
-                        Starts at: {startTime}
+                        Schedule: {schedule}
                     </Typography>
                     {showStatus}
                 </Stack>
             </Box>
             <Divider light />
-            {(currentStatus != SessionCurrentStatus.ENDED) ? (<PatientSeenStatusGrid patientSeenStatusList={patientSeenStatusList} />) : null}
+            {(currentStatus !== SessionCurrentStatus.ENDED) ? (<PatientSeenStatusGrid patientSeenStatusList={patientSeenStatusList} />) : null}
         </Card>
     );
 }

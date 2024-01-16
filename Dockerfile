@@ -1,6 +1,8 @@
 FROM node:20-alpine
 
-WORKDIR usr/src/app
+WORKDIR /usr/src/app
+
+RUN mkdir -p /usr/src/app/certs
 
 COPY package* .
 
@@ -8,10 +10,10 @@ RUN npm install
 
 RUN npm install -g serve
 
-EXPOSE 80
+EXPOSE 443
 
 COPY . .
 
 RUN npm run build
 
-CMD ["serve", "-s", "build", "-l", "80"]
+CMD ["node", "serve.js"]
