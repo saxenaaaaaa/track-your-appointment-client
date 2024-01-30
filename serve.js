@@ -10,7 +10,11 @@ const port = 443;
 
 app.use(express.static(path.join(__dirname, 'build')));
 
-app.get('/', function (req, res) {
+// We need to have react-router's client side routing kick in an handle routing for every time url changes in the browser url bar.
+// Hence, we need to change our express server to serve index.html for every possible route so that react router takes it forward
+// and opens correct component using its own routing instead of the express server trying to serve that path (and failing because 
+// that path is not defined in this file). Hence, changing / to * to match all routes.
+app.get('*', function (req, res) { 
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
