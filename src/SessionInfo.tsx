@@ -39,7 +39,9 @@ export default function SessionInfo({ patientSeenStatusList, schedule, currentSt
             <Box sx={{ px: 1 }}>
                 <Stack direction="column">
                     <Typography gutterBottom variant="h6" component="div">
-                        Schedule: {schedule}
+                        <pre style={{fontFamily: 'inherit'}}>
+                            Schedule: {schedule}
+                        </pre>
                     </Typography>
                     {showStatus}
                 </Stack>
