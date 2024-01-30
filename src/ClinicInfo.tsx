@@ -30,8 +30,7 @@ export default function ClinicInfo({doctorName}: ClinicInfoProps): React.JSX.Ele
             {/* todo: this should come from the server */}
             {!isClinicOpenToday() && (<Typography color="white" variant="body2"> 
                 The clinic is closed today.
-            </Typography>)} 
-            
+            </Typography>)}
           </Box>
         </Card>
     );
