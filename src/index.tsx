@@ -8,7 +8,7 @@ import '@fontsource/roboto/700.css';
 import App, { doctorsListLoader } from './App';
 import reportWebVitals from './reportWebVitals';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import ClinicDashboard from './ClinicDashboard';
+import ClinicDashboard, { doctorLoader } from './ClinicDashboard';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -22,7 +22,8 @@ const router = createBrowserRouter([
   },
   {
     path: "/track/:trackingId",
-    element: <ClinicDashboard />
+    element: <ClinicDashboard />,
+    loader: doctorLoader // todo: need to check if loader is called when we navigate from App component to this component
   }
 ]);
 

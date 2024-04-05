@@ -5,17 +5,16 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 type ClinicInfoProps = {
-    doctorName: string
+    doctorName: string,
+    date: string
 }
 
 export function isClinicOpenToday() {
     return true;//(new Date().getDay() !== 0);
 }
 
-export default function ClinicInfo({doctorName}: ClinicInfoProps): React.JSX.Element {
+export default function ClinicInfo({doctorName, date}: ClinicInfoProps): React.JSX.Element {
     
-    const now = new Date();
-    const date = now.toLocaleDateString("en-IN");
     return (
         <Card variant="outlined" sx={{ width: 1, bgcolor: 'black', color: 'white', borderRadius: 0 }}>
           <Box sx={{ pt: 1, px:1 }}>
